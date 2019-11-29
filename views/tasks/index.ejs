@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<div class="container">
+    <header class="jumbotron">
+       <div class="container" style="text-align:center">
+<h1>TASKS PAGE</h1>
+<a href="/tasks/new">Add new task!</a>
+</div>
+<% tasks.forEach(function(task){ %>
+    <% if(task.assignee.id.equals(currentuser._id)){ %>
+        <li>
+            <a href="/tasks/<%= task._id%> "><%= task.title %></a>
+        </li>
+    <% }else{ %>
+
+    <% task.teams.forEach(function(team){ %>
+        
+        <% if(team.members.id.equals(currentuser._id)){ %>
+            <li>
+                <a href="/tasks/<%= task._id%> "><%= task.title %></a>
+            </li>
+        <% } %>
+    <% });%>
+    <% } %>
+
+<% });%>
+<% include ../partials/footer %>

@@ -1,0 +1,85 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <div class="img-thumbnail">
+                <div class="caption-full">
+                <h5 class="float-right"><%= task.assignee.username %></h5>
+                <h4><%= task.title %></h4>
+                <p><%= task.description %></p>
+                <p><em><%= task.status %></em></p>
+                <% if(task.assignee.id.equals(currentuser._id)){ %>
+                    <p>
+                    <a href="/tasks/<%= task._id %>/teams/new">  Add new member</a>
+                    </p>
+                    <p>
+                        <a href="/tasks/<%= task._id %>/edit"> EDIT</a>
+                    </p>
+                    <p>
+                        <form action="/tasks/<%= task._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">DELETE</button>
+                        </form>
+                    </p>
+                    <% } %>
+                </div>
+            </div>
+            </p>
+
+
+<p>
+<div class="img-thumbnail">
+    <h3>TEAM</h3>
+    <hr>
+<% task.teams.forEach(function(team){ %>
+    <div class="row">
+            <div class="col-md-12">
+                   <p><%= team.member %>:<em><%= team.assignment %> </em></p>
+
+<% if(task.assignee.id.equals(currentuser._id)){ %>
+<p>
+    <a href="/tasks/<%= task._id %>/teams/<%= team._id %>/edit"> EDIT</a>
+     <form action="/tasks/<%= task._id %>/teams/<%= team._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-danger">DELETE</button>
+    </form>
+</p>
+<% } %>
+</div>
+</div> 
+<% }) %>
+</p>
+
+
+
+<p>
+        <div class="img-thumbnail">
+            <h3>COMMENTS</h3>
+            <div class="text-right">
+              <a class="btn btn-success" href="/tasks/<%= task._id %>/comments/new">NEW</a>
+            </div>
+            <hr>
+<% task.comments.forEach(function(comment){ %>
+    <div class="row">
+            <div class="col-md-12">
+    <%= comment.author.username %> 
+    <p><%= comment.text %></p>
+    <p>
+    <% if(comment.author.id.equals(currentuser._id)){ %>
+        <a href="/tasks/<%= task._id %>/comments/<%= comment._id %>/edit"> EDIT</a>
+        - <form action="/tasks/<%= task._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">DELETE</button>
+        </form>
+    </p>
+    <% } %>
+</div>
+</div>   
+    <% }) %>
+
+</p>    
+</div>
+</div>
+</div>
+</div>
+
+<% include ../partials/footer %>
